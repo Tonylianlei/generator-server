@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!-- 生成mysql带有分页的sql的插件  这个可以自己写，-->
+        <plugin type="com.example.securityserver.common.generator.MysqlPaginationPlugin" />
+
+        <!-- 配置生成pojo的序列化的插件  -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <plugin type="com.example.securityserver.common.generator.MyLombokPlugin" />
+
+        <!-- 自定义的注释规则，继承 DefaultCommentGenerator 重写 一些方法 -->
+        <commentGenerator type="com.example.securityserver.common.generator.MyFieldPlugin">
+            <!-- 是否去除所有自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/capsys_changjiang_dev?serverTimezone=UTC"
+                        userId="root"
+                        password="123456">
+
+            <property name="nullCatalogMeansCurrent" value="true"/>
+
+            <property name="useInformationSchema" value="true" />
+        </jdbcConnection>
+
+        <!-- 自定义字段类型 -->
+        <javaTypeResolver type="com.example.securityserver.common.generator.CustJavaTypeResolver">
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!--生成entity类存放位置-->
+        <javaModelGenerator targetPackage="com.example.securityserver.entity.bean" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--生成映射文件存放位置-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="./src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--生成Dao类存放位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.securityserver.entity.dao"
+                             targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 生成数据库全部的实体信息 -->
+        <table tableName="%" schema="SCOTT"  >
+        <!--
+            将生成的实体类转换名字
+            比如我的数据表都是tbl_开头的，默认生成实体就是Tbl开头的，不想Tbl存在在类名上所以在这里吧Tbl替换掉
+         -->
+        <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
+        </table>
+
+    </context>
+</generatorConfiguration>
+
+        <!-- 生成数据库全部的实体信息 -->
+<!--
+<table tableName="%" schema="SCOTT"  >
+&lt;!&ndash;
+    将生成的实体类转换名字
+    比如我的数据表都是tbl_开头的，默认生成实体就是Tbl开头的，不想Tbl存在在类名上所以在这里吧Tbl替换掉
+ &ndash;&gt;
+<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
+</table>-->
